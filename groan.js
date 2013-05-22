@@ -1,3 +1,5 @@
+var isNode = typeof module !== 'undefined' && module.exports;
+
 function PHParse(str) {
   var o = { str: str, pos: 0 };
   if (str.indexOf('|') === -1)
@@ -21,10 +23,15 @@ var __PHParseValue = function(o) {
     idelim = o.str.indexOf(':', o.pos);
     len = parseInt(o.str.substring(o.pos, idelim), 10);
     o.pos = idelim + 2;
-    buf = new Buffer(len);
-    buf.write(o.str.substr(o.pos));
-    v = buf.toString();
-    o.pos += v.length + 2;
+    if (isNode) {
+      buf = new Buffer(len);
+      buf.write(o.str.substr(o.pos));
+      v = buf.toString();
+      o.pos += v.length + 2;
+    } else {
+      v = o.str.substr(o.pos, len);
+      o.pos += len + 2;
+    }
   } else if (type === 'i') {
     idelim = o.str.indexOf(';', o.pos);
     v = parseInt(o.str.substring(o.pos, idelim), 10);
@@ -42,10 +49,14 @@ var __PHParseValue = function(o) {
       // skip object class name
       idelim = o.str.indexOf(':', o.pos);
       len = parseInt(o.str.substring(o.pos, idelim), 10);
-      buf = new Buffer(len);
-      buf.write(o.str.substr(o.pos));
-      v = buf.toString();
-      o.pos = idelim + 2 + v.length + 2;
+      if (isNode) {
+        buf = new Buffer(len);
+        buf.write(o.str.substr(o.pos));
+        v = buf.toString();
+        o.pos = idelim + 2 + v.length + 2;
+      } else {
+        o.pos = idelim + 2 + len + 2;
+      }
     }
     idelim = o.str.indexOf(':', o.pos);
     len = parseInt(o.str.substring(o.pos, idelim), 10);
