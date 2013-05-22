@@ -15,14 +15,16 @@ function PHParse(str) {
   }
 }
 var __PHParseValue = function(o) {
-  var v, type = o.str[o.pos].toLowerCase(), len, idelim;
+  var v, type = o.str[o.pos].toLowerCase(), len, idelim, buf;
   o.pos += 2;
   if (type === 's') {
     idelim = o.str.indexOf(':', o.pos);
     len = parseInt(o.str.substring(o.pos, idelim), 10);
     o.pos = idelim + 2;
-    v = o.str.substr(o.pos, len);
-    o.pos += len + 2;
+    buf = new Buffer(len);
+    buf.write(o.str.substr(o.pos));
+    v = buf.toString();
+    o.pos += v.length + 2;
   } else if (type === 'i') {
     idelim = o.str.indexOf(';', o.pos);
     v = parseInt(o.str.substring(o.pos, idelim), 10);
@@ -40,7 +42,10 @@ var __PHParseValue = function(o) {
       // skip object class name
       idelim = o.str.indexOf(':', o.pos);
       len = parseInt(o.str.substring(o.pos, idelim), 10);
-      o.pos = idelim + 2 + len + 2;
+      buf = new Buffer(len);
+      buf.write(o.str.substr(o.pos));
+      v = buf.toString();
+      o.pos = idelim + 2 + v.length + 2;
     }
     idelim = o.str.indexOf(':', o.pos);
     len = parseInt(o.str.substring(o.pos, idelim), 10);
