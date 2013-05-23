@@ -44,20 +44,21 @@ var __PHParseValue = function(o) {
     v = (o.str[o.pos] === '1');
     o.pos += 2;
   } else if (type === 'a' || type === 'o') {
-    v = {};
     if (type === 'o') {
       // skip object class name
       idelim = o.str.indexOf(':', o.pos);
       len = parseInt(o.str.substring(o.pos, idelim), 10);
       if (isNode) {
+        o.pos = idelim + 2;
         buf = new Buffer(len);
         buf.write(o.str.substr(o.pos));
         v = buf.toString();
-        o.pos = idelim + 2 + v.length + 2;
+        o.pos += v.length + 2;
       } else {
         o.pos = idelim + 2 + len + 2;
       }
     }
+    v = {};
     idelim = o.str.indexOf(':', o.pos);
     len = parseInt(o.str.substring(o.pos, idelim), 10);
     o.pos = idelim + 2;
