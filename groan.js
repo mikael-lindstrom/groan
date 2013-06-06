@@ -24,9 +24,12 @@ var __PHParseValue = function(o) {
     len = parseInt(o.str.substring(o.pos, idelim), 10);
     o.pos = idelim + 2;
     if (isNode) {
-      buf = new Buffer(len);
-      buf.write(o.str.substr(o.pos));
-      v = buf.toString();
+      v = '';
+      if (len > 0) {
+        buf = new Buffer(len);
+        buf.write(o.str.substr(o.pos));
+        v = buf.toString();
+      }
       o.pos += v.length + 2;
     } else {
       v = o.str.substr(o.pos, len);
@@ -49,10 +52,13 @@ var __PHParseValue = function(o) {
       idelim = o.str.indexOf(':', o.pos);
       len = parseInt(o.str.substring(o.pos, idelim), 10);
       if (isNode) {
-        o.pos = idelim + 2;
-        buf = new Buffer(len);
-        buf.write(o.str.substr(o.pos));
-        v = buf.toString();
+        v = '';
+        if (len > 0) {
+          o.pos = idelim + 2;
+          buf = new Buffer(len);
+          buf.write(o.str.substr(o.pos));
+          v = buf.toString();
+        }
         o.pos += v.length + 2;
       } else {
         o.pos = idelim + 2 + len + 2;
