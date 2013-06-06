@@ -1,10 +1,28 @@
 { "name": "groan",
-  "version": "0.1.2",
-  "author": "Brian White <mscdex@mscdex.net>",
-  "description": "A PHP session file parser written in JavaScript",
-  "main": "./groan",
-  "engines": { "node" : ">=0.2.0" },
-  "keywords": [ "php", "session", "parser" ],
-  "licenses": [ { "type": "MIT", "url": "http://github.com/mscdex/groan/raw/master/LICENSE" } ],
-  "repository" : { "type": "git", "url": "http://github.com/mscdex/groan.git" }
+    "version": "0.1.2",
+    "author": "Brian White <mscdex@mscdex.net>",
+    "description": "A PHP session file parser written in JavaScript",
+    "main": "./groan",
+    "engines": {
+        "node": ">=0.2.0"
+    },
+    "keywords": [ "php", "session", "parser" ],
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://github.com/mscdex/groan/raw/master/LICENSE"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/mscdex/groan.git"
+    },
+    "scripts": {
+        "test": "grunt nodeunit"
+    },
+    "devDependencies": {
+        "grunt-contrib-jshint": "~0.4.3",
+        "grunt-contrib-nodeunit": "~0.2.0",
+        "grunt": "~0.4.1"
+    }
 }
